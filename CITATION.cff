@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "OptoNet: Deep Learning Predicts and Designs Neuron-Type-Specific Responses to Optogenetic Stimulation"
+message: "If you use this benchmark, code or manuscript, please cite it as below."
+type: software
+authors:
+  - name: "OptoNet contributors"
+repository-code: "https://github.com/YOUR-USERNAME/optonet"
+url: "https://github.com/YOUR-USERNAME/optonet"
+abstract: >-
+  OptoNet is a reproducible benchmark and model suite for predicting and
+  designing neuronal responses to optogenetic stimulation. It combines a
+  biophysically grounded simulator (AdEx neuron with a two-state ChR2
+  photocurrent), 61,000 stimulation trials across nine protocol families and
+  three cell types, classical and deep sequence models (GLM, dilated CNN,
+  Conv-LSTM, OptoFormer), out-of-distribution generalisation tests, uncertainty
+  quantification, few-shot cross-cell-type transfer and model-in-the-loop
+  stimulation design.
+keywords:
+  - optogenetics
+  - channelrhodopsin
+  - computational neuroscience
+  - deep learning
+  - neural encoding
+  - spiking neural networks
+license: MIT

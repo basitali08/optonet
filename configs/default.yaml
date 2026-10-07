@@ -1,0 +1,110 @@
+seed: 2026
+
+data:
+  root: data
+  n_cells: 900
+  cells_per_type: 300
+  cell_split:
+    train: 200
+    val: 40
+    test: 60
+  trials_per_split:
+    train: 36000
+    val: 7000
+    test_id: 7000
+    test_ood_proto: 5000
+    test_ood_freq: 3000
+    test_ood_int: 3000
+  t_total_ms: 1500
+  t_onset_ms: 200
+  dt_ms: 0.1
+  bin_ms: 1.0
+  chunk_size: 4000
+  drive_scales:
+    pc: 1.191
+    pv: 1.178
+    som: 1.387
+  baseline_targets_hz:
+    pc: 3.0
+    pv: 8.0
+    som: 4.0
+
+protocols:
+  train_families: [regular, step, rand, doublet, burst]
+  ood_families: [chirp, sweep, sparse, chirp_hi]
+  intensity_lo: 0.15
+  intensity_hi: 1.0
+  freq_lo: 1.0
+  freq_hi: 40.0
+
+features:
+  cell_features: [C, gL, EL, VT, dVT, a, b, tau_w, g_opto, I0, std_ou]
+
+models:
+  glm:
+    lags: 512
+    lr: 0.02
+    weight_decay: 0.0001
+    epochs: 15
+    batch_size: 256
+  hgb:
+    max_iter: 400
+    learning_rate: 0.08
+    max_leaf_nodes: 63
+    min_samples_leaf: 40
+    detection_max_iter: 300
+  cnn:
+    stem_stride: 8
+    stem_channels: 48
+    channels: 32
+    kernel: 5
+    n_blocks: 7
+    dropout: 0.1
+    lr: 0.001
+    weight_decay: 0.0001
+    epochs: 10
+    batch_size: 128
+  lstm:
+    stem_stride: 8
+    stem_channels: 48
+    hidden: 96
+    layers: 1
+    dropout: 0.1
+    lr: 0.001
+    weight_decay: 0.0001
+    epochs: 10
+    batch_size: 256
+  transformer:
+    d_model: 64
+    nhead: 4
+    num_layers: 3
+    dim_feedforward: 128
+    patch_ms: 32
+    dropout: 0.1
+    lr: 0.0005
+    weight_decay: 0.0001
+    epochs: 10
+    batch_size: 256
+
+training:
+  device: auto
+  n_seeds: 3
+  seeds: [11, 22, 33]
+  early_stopping_patience: 3
+  num_workers: 0
+  sequence_models: [glm, cnn, lstm, transformer]
+
+transfer:
+  holdout_type: som
+  shot_sizes: [10, 25, 50, 100, 200]
+  epochs: 15
+
+uncertainty:
+  n_members: 5
+  conformal_alpha: 0.1
+
+optimization:
+  n_candidates: 400
+  population: 40
+  generations: 12
+  objective: fidelity
