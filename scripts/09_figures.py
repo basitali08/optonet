@@ -278,9 +278,9 @@ def fig_interpretability():
         print("  [skip] fig7: run 07_interpretability.py first")
         return
     z = np.load(p)
-    keys = [k for k in z.files if k.startswith("sal_")]
+    keys = [f"sal_{m}" for m in MODELS if f"sal_{m}" in z.files]
     fig, axes = plt.subplots(1, 3, figsize=(11.5, 2.8))
-    for i, k in enumerate(keys[:3]):
+    for i, k in enumerate(keys):
         sal = z[k]
         axes[0].plot(sal[:, 200:].mean(axis=0), color=PALETTE[i], lw=0.9,
                      label=k.split("_", 1)[1].upper())
@@ -306,7 +306,8 @@ def fig_interpretability():
         axes[2].imshow(a, cmap="magma", aspect="auto")
         axes[2].set_xlabel("key patch")
         axes[2].set_ylabel("query patch")
-        axes[2].set_title(f"Attention (adjacent={num:.2f})")
+        base = np.mean([min(3, i + 1) / (i + 1) for i in range(a.shape[0])])
+        axes[2].set_title(f"Attention (adjacent={num:.2f}; uniform={base:.2f})")
     save(fig, "fig7_interpretability")
 
 

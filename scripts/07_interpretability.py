@@ -72,9 +72,12 @@ def attention_rollout(model, light_t, cell_t, patch: int, batch: int = 32):
         tok = model.proj(v) + model.pos[:, :n]
         gamma, beta = model.film(c).chunk(2, dim=-1)
         tok = tok * (1 + gamma.unsqueeze(1)) + beta.unsqueeze(1)
+        causal = torch.triu(torch.full((n, n), float("-inf"), dtype=tok.dtype),
+                            diagonal=1)
         att = []
         for layer in model.encoder.layers:
-            _, a = layer.self_attn(tok, tok, tok, need_weights=True,
+            _, a = layer.self_attn(tok, tok, tok, attn_mask=causal,
+                                   need_weights=True,
                                    average_attn_weights=True)
             att.append(a.detach().mean(dim=0))   # [n, n]
         a_bar = torch.stack(att).mean(dim=0)     # [n, n]
@@ -127,7 +130,7 @@ def main() -> None:
         probs = np.mean(probs_list, axis=0)
         out[f"sal_{name}"] = sal.astype(np.float32)
 
-        in_p = float(sal[:, pmask].mean()) if pmask.any() else 0.0
+        in_p = float(sal[pmask].mean()) if pmask.any() else 0.0
         out_p = float(sal[~pmask].mean())
         enrichment = in_p / max(out_p, 1e-12)
 
@@ -147,7 +150,8 @@ def main() -> None:
                 if b > a:
                     prof.append((row_i, k, sal[row_i, a:b].sum()))
         prof = pd.DataFrame(prof, columns=["trial", "pulse", "sal"])
-        prof["cell_type"] = ctype[prof["trial"].to_numpy()]
+        prof["cell_type"] = pd.Categorical(
+            ctype[prof["trial"].to_numpy()]).codes.astype(np.float32)
         prof["rel"] = prof.groupby("trial")["pulse"].transform(lambda s: s / max(s.max(), 1))
         out[f"prof_{name}"] = prof.to_numpy(dtype=np.float32)
 
@@ -164,7 +168,9 @@ def main() -> None:
 
         if name == "glm":
             for ci, ct in enumerate(("pc", "pv", "som")):
-                k = model.kernel[ci].detach().numpy().ravel()
+                # forward pads with n_lags-1 zeros at the front, so kernel
+                # index k corresponds to lag n_lags-1-k; store in lag order.
+                k = model.kernel[ci].detach().numpy().ravel()[::-1]
                 out[f"glm_kernel_{ct}"] = k.astype(np.float32)
                 peak = int(np.argmax(np.abs(k)))
                 rows.append({"model": "glm", "n_trials": len(idx),
@@ -180,6 +186,11 @@ def main() -> None:
                                      cfg["models"]["transformer"]["patch_ms"])
             out["attn_rollout"] = roll.astype(np.float32)
             full = sequence_metrics(raster, probs, window_start=T_ONSET)
+            nq = roll.shape[0]
+            ii, jj = np.indices(roll.shape)
+            local = float(roll[np.abs(ii - jj) <= 3].sum() / roll.sum())
+            local_base = float(np.mean([min(7, i + 1) / (i + 1)
+                                        for i in range(nq)]))
             rows.append({"model": name, "n_trials": len(idx),
                          "sal_enrichment": enrichment, "sal_pulse_mean": in_p,
                          "sal_offpulse_mean": out_p,
@@ -188,6 +199,8 @@ def main() -> None:
                          "bin_auprc": full["bin_auprc"],
                          "sal_first_half": float(sal[:, T_ONSET:T_ONSET + 500].mean()),
                          "sal_second_half": float(sal[:, T_ONSET + 500:].mean()),
+                         "attn_local": local,
+                         "attn_local_uniform": local_base,
                          "attn_distant_ratio": float(
                              roll[-1, :3].sum() / max(roll[-1, 3:].sum(), 1e-12))})
         print(f"[interp] {name}: enrichment={enrichment:.2f} "

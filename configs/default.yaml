@@ -63,7 +63,7 @@ models:
     lr: 0.001
     weight_decay: 0.0001
     epochs: 10
-    batch_size: 128
+    batch_size: 64
   lstm:
     stem_stride: 8
     stem_channels: 48

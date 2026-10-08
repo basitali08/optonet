@@ -98,8 +98,8 @@ def train_sequence(model: nn.Module, store: TensorStore,
             losses.append(loss.item())
         sched.step()
 
-        val_loss = float(np.mean([float(_batch_loss(model, store, val_idx[s:s + 4096], criterion))
-                                  for s in range(0, len(val_idx), 4096)]))
+        val_loss = float(np.mean([float(_batch_loss(model, store, val_idx[s:s + 1024], criterion))
+                                  for s in range(0, len(val_idx), 1024)]))
         rec = {"epoch": epoch, "train_loss": float(np.mean(losses)),
                "val_loss": val_loss, "lr": optim.param_groups[0]["lr"],
                "time_sec": time.time() - t0}
@@ -121,8 +121,8 @@ def train_sequence(model: nn.Module, store: TensorStore,
     return model, best, history
 
 
-def evaluate(model, store, trial_ids: np.ndarray, batch_size: int = 512,
+def evaluate(model, store, trial_ids: np.ndarray, batch_size: int = 128,
              window_start: int = 200) -> Dict[str, float]:
     probs = predict(model, store, trial_ids, batch_size=batch_size)
-    y = store.raster[trial_ids].numpy().astype(np.float64)
+    y = store.raster[trial_ids].numpy().astype(np.float32)
     return sequence_metrics(y, probs, window_start=window_start)

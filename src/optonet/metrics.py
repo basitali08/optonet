@@ -43,32 +43,47 @@ def detection_metrics(y_true: np.ndarray, probs: np.ndarray,
 
 
 def sequence_metrics(y_bin: np.ndarray, probs: np.ndarray,
-                     window_start: int = 200) -> Dict[str, float]:
-    """Bin-level and trial-level metrics for 1 kHz spike rasters."""
-    y_bin = y_bin.astype(np.float64)
-    probs = np.asarray(probs, dtype=np.float64)
-    flat_y = (y_bin.ravel() > 0).astype(int)
-    flat_p = probs.ravel()
+                     window_start: int = 200, max_bin_trials: int = 2000,
+                     max_psth_trials: int = 1000, seed: int = 0) -> Dict[str, float]:
+    """Bin-level and trial-level metrics for 1 kHz spike rasters.
+
+    Bin-level scores are computed on a random subset of trials (bin-level
+    statistics are extremely stable with millions of bins and this keeps peak
+    memory low); count metrics use every trial.
+    """
+    y_bin = np.asarray(y_bin, dtype=np.float32)
+    probs = np.asarray(probs, dtype=np.float32)
+    rng = np.random.default_rng(seed)
+    n = y_bin.shape[0]
+    bin_idx = (rng.choice(n, size=min(max_bin_trials, n), replace=False)
+               if n > max_bin_trials else np.arange(n))
+    flat_y = (y_bin[bin_idx].ravel() > 0).astype(np.int8)
+    flat_p = probs[bin_idx].ravel().astype(np.float64)
     out = {
         "bin_auroc": float(roc_auc_score(flat_y, flat_p)),
         "bin_auprc": float(average_precision_score(flat_y, flat_p)),
         "bin_brier": float(brier_score_loss(flat_y, flat_p)),
+        "n_bin_trials": int(len(bin_idx)),
     }
-    y_count = y_bin[:, window_start:].sum(axis=1)
-    p_count = probs[:, window_start:].sum(axis=1)
-    out.update({f"evoked_{k}": v for k, v in count_metrics(y_count, p_count).items()})
-    y_count_all = y_bin.sum(axis=1)
-    p_count_all = probs.sum(axis=1)
-    out.update({f"total_{k}": v for k, v in count_metrics(y_count_all, p_count_all).items()})
+    del flat_y, flat_p
 
-    ker = np.hanning(41)
+    y_count = y_bin[:, window_start:].sum(axis=1, dtype=np.float64)
+    p_count = probs[:, window_start:].sum(axis=1, dtype=np.float64)
+    out.update({f"evoked_{k}": v for k, v in count_metrics(y_count, p_count).items()})
+    y_all = y_bin.sum(axis=1, dtype=np.float64)
+    p_all = probs.sum(axis=1, dtype=np.float64)
+    out.update({f"total_{k}": v for k, v in count_metrics(y_all, p_all).items()})
+
+    ker = np.hanning(41).astype(np.float32)
     ker /= ker.sum()
+    psth_idx = (rng.choice(n, size=min(max_psth_trials, n), replace=False)
+                if n > max_psth_trials else np.arange(n))
     rs = []
-    for i in range(y_bin.shape[0]):
+    for i in psth_idx:
         yy = np.convolve(y_bin[i], ker, mode="same")
         pp = np.convolve(probs[i], ker, mode="same")
         if yy.std() > 1e-9 and pp.std() > 1e-9:
-            rs.append(np.corrcoef(yy, pp)[0, 1])
+            rs.append(float(np.corrcoef(yy, pp)[0, 1]))
     out["psth_r"] = float(np.mean(rs)) if rs else 0.0
     return out
 
