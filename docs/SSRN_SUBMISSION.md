@@ -44,10 +44,10 @@ grep -n "n/a" paper/main.tex | head
 3. Upload `paper/main.pdf` as the manuscript.
 4. Fill in the metadata fields above.
 5. Under **Disclosures**, state any funding and any AI-assistance disclosure
-   required by your institution. Journals increasingly require disclosure of
-   LLM use in preparation of text; if that applies to you, add a short
-   statement such as: "Large language models were used for language editing;
-   all analyses, code and results are those of the authors."
+   required by your institution. SSRN requires an AI disclosure to appear
+   **both** in the abstract metadata and **on the PDF itself** (the manuscript
+   carries one directly under the abstract); update that sentence if your
+   usage differed from what is printed there.
 6. Choose the **subject area** closest to: *Computer Science and Law →
    Computers and Information* or *Econometrics → Statistics and Econometrics
    Methodology*, and optionally *Neuroscience → Computational Neuroscience*.
