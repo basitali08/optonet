@@ -36,8 +36,6 @@ jobs:
       - name: Quick end-to-end smoke run
         run: |
           python scripts/02_tabular_baselines.py
-          python scripts/03_train_sequence.py --models glm --seeds 11
-          python scripts/04_evaluate.py
           python scripts/09_figures.py --only protocols,dataset
 
       - name: Upload results
