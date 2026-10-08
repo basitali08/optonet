@@ -1,0 +1,109 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brette and Gerstner(2005)]{brette2005adex}
+Romain Brette and Wulfram Gerstner.
+\newblock Adaptive exponential integrate-and-fire models as realistic
+  descriptions of neuronal activity.
+\newblock \emph{Journal of Computational Neuroscience}, 25\penalty0
+  (3):\penalty0 1493--1507, 2005.
+
+\bibitem[Brunton et~al.(2016)Brunton, Bucilu{\u{s}}, and
+  Chavas-Blanch]{brunton2016why}
+Steven~L. Brunton, Adrian~D. Bucilu{\u{s}}, and F.~Chavas-Blanch.
+\newblock Why and when can deep---but not shallow---networks avoid the curse of
+  dimensionality: a review.
+\newblock In \emph{International Conference on Learning Representations}, 2016.
+
+\bibitem[Finn et~al.(2017)Finn, Abbeel, and Levine]{finn2017maml}
+Chelsea Finn, Pieter Abbeel, and Sergey Levine.
+\newblock Model-agnostic meta-learning for fast adaptation of deep networks.
+\newblock In \emph{Proceedings of the 34th International Conference on Machine
+  Learning}, pages 1126--1135, 2017.
+
+\bibitem[Foutz et~al.(2012)Foutz, Ursitti, Meshulam, Friedman, Clandinin, and
+  Barth]{foutz2012basis}
+Theodore~J. Foutz, C.~E. Ursitti, Leora Meshulam, Paul~S. Friedman, Thomas~R.
+  Clandinin, and Alain Barth.
+\newblock Basis for a slow activity-dependent photocurrent in
+  channelrhodopsin-2.
+\newblock \emph{Journal of General Physiology}, 140\penalty0 (2):\penalty0
+  207--218, 2012.
+
+\bibitem[Friedman(2001)]{friedman2001greedy}
+Jerome~H. Friedman.
+\newblock Greedy function approximation: a gradient boosting machine.
+\newblock \emph{The Annals of Statistics}, 29\penalty0 (5):\penalty0
+  1189--1232, 2001.
+
+\bibitem[Herman et~al.(2019)Herman, Salce, Ambiscusi, Barth,
+  et~al.]{herman2019minimal}
+Alexander~M. Herman, Cesar Salce, Stefano Ambiscusi, Alain Barth, et~al.
+\newblock A minimal physiological model for the optogenetic photocurrent.
+\newblock \emph{PLOS Computational Biology}, 15\penalty0 (9):\penalty0
+  e1007043, 2019.
+
+\bibitem[Hochreiter and Schmidhuber(1997)]{hochreiter1997long}
+Sepp Hochreiter and Jurgen Schmidhuber.
+\newblock Long short-term memory.
+\newblock \emph{Neural Computation}, 9\penalty0 (8):\penalty0 1735--1780, 1997.
+
+\bibitem[Lakshminarayanan et~al.(2017)Lakshminarayanan, Pritzel, and
+  Blundell]{lakshminarayanan2017ensembles}
+Balaji Lakshminarayanan, Alexander Pritzel, and Charles Blundell.
+\newblock Simple and scalable predictive uncertainty estimation using deep
+  ensembles.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~30, 2017.
+
+\bibitem[Lei et~al.(2018)Lei, G'Sell, Rinaldo, Tibshirani, and
+  Wasserman]{lei2018distribution}
+Jing Lei, Max G'Sell, Alessandro Rinaldo, Ryan~J. Tibshirani, and Larry
+  Wasserman.
+\newblock Distribution-free predictive inference for regression.
+\newblock \emph{Journal of the American Statistical Association}, 113\penalty0
+  (523):\penalty0 1094--1111, 2018.
+
+\bibitem[Nagel et~al.(2003)Nagel, Szilagyi, Luthi, Zhang, Stadtler, Fesenko,
+  Monzen, Bryan, Song, Emptoz, Scheel, Gunthof, Looger, Podgorski, Shapira,
+  Ott, Sackmann, Daudet, Hemberger, Rotzler, Vilar, Murnin, Sitaram, and
+  Legendre]{nagel2003light}
+Georg Nagel, Katherine Szilagyi, Arne Luthi, Jian Zhang, Peter Stadtler, Georg
+  Fesenko, Tatjana Monzen, Philip~M. Bryan, Hongkui Song, Anne Emptoz, Sven
+  Scheel, Tanja Gunthof, Leon~L. Looger, Krzysztof Podgorski, Ofer Shapira,
+  Thomas Ott, Brigitte Sackmann, Romain Daudet, Thomas-Bernhard Hemberger,
+  Stefan Rotzler, Thibault Vilar, Jonathan~P. Murnin, Sriram Sitaram, and Light
+  Legendre.
+\newblock Light activation of channelrhodopsin.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 100\penalty0
+  (13):\penalty0 7430--7435, 2003.
+
+\bibitem[Perez et~al.(2018)Perez, Koumakou, de~Charette, and
+  Koltun]{perez2018film}
+Ethan Perez, Stratos Koumakou, R{\'e}mi de~Charette, and Viktoria Koltun.
+\newblock Film: Visual reasoning with a general conditioning layer.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~34, pages 3942--3951, 2018.
+
+\bibitem[Pillow et~al.(2008)Pillow, Kutz, Soldo, Chichilnisky, and
+  Paninski]{pillow2008spatiotemporal}
+Jonathan~W. Pillow, Joao~N. Kutz, Marius Soldo, E.~J. Chichilnisky, and Liam
+  Paninski.
+\newblock Spatio-temporal correlations and dynamics of mammalian sensory
+  neurons using maximum likelihood estimation.
+\newblock \emph{Nature Neuroscience}, 11\penalty0 (10):\penalty0 1271--1274,
+  2008.
+
+\bibitem[Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez,
+  Kaiser, and Polosukhin]{vaswani2017attention}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+  Aidan~N. Gomez, Lukasz Kaiser, and Illia Polosukhin.
+\newblock Attention is all you need.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~30, 2017.
+
+\end{thebibliography}
