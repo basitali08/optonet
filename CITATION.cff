@@ -3,9 +3,12 @@ title: "OptoNet: Deep Learning Predicts and Designs Neuron-Type-Specific Respons
 message: "If you use this benchmark, code or manuscript, please cite it as below."
 type: software
 authors:
-  - name: "OptoNet contributors"
-repository-code: "https://github.com/YOUR-USERNAME/optonet"
-url: "https://github.com/YOUR-USERNAME/optonet"
+  - family-names: Ali
+    given-names: Basit
+    email: basitali.262713@gmail.com
+    affiliation: "Abdul Wali Khan University, Mardan, Pakistan"
+repository-code: "https://github.com/basitali08/optonet"
+url: "https://github.com/basitali08/optonet"
 abstract: >-
   OptoNet is a reproducible benchmark and model suite for predicting and
   designing neuronal responses to optogenetic stimulation. It combines a
